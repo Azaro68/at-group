@@ -1,0 +1,28 @@
+<template>
+  <div class="app">
+    <HeaderPage/>
+    <MainPage/>
+    <FooterPage/>
+  </div>
+</template>
+
+<script>
+import HeaderPage from './components/HeaderPage.vue';
+import MainPage from './components/MainPage.vue';
+import FooterPage from './components/FooterPage.vue';
+
+export default {
+  name: 'App',
+  components: {
+    HeaderPage,
+    MainPage,
+    FooterPage,
+  }
+}
+</script>
+
+<style scoped>
+  .app{
+    margin-bottom: 150px;
+  }
+</style>
