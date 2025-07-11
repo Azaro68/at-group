@@ -67,28 +67,44 @@ export default {
           return;
         }
 
-        const sheetHtml = XLSX.utils.sheet_to_html(sheet);
-        const htmlWithScroll = sheetHtml.replace(
-          new RegExp(`<tr.*?>`, 'g'),
-          (match, offset, fullText) => {
-            const rowIndex = fullText.slice(0, offset).split('<tr').length - 1;
-            if (rowIndex === foundIndex) {
-              return match.replace('<tr', `<tr id="scrollHere" style="background-color: #ffff99;"`);
-            }
-            return match;
-          }
-        );
+        const rowData = jsonData[foundIndex];
 
-        const finalHtml = `
-          <html>
-          <head><title>Результат</title></head>
-          <body>
-            ${htmlWithScroll}
-            <script>
-  window.onload = () => {
-    const el = document.getElementById('scrollHere');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
+const rowHtml = `
+  <html>
+    <head>
+      <title>Найдена деталь</title>
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 80%;
+          margin: 40px auto;
+        }
+        td {
+          border: 1px solid #999;
+          padding: 12px 16px;
+          font-size: 18px;
+          background-color: #ffff99;
+        }
+        h2 {
+          text-align: center;
+          font-family: sans-serif;
+          margin-top: 30px;
+        }
+      </style>
+    </head>
+    <body>
+      <h2>Найдена строка:</h2>
+      <table>
+        <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
+      </table>
+    </body>
+  </html>
+`;
+
+const blob = new Blob([rowHtml], { type: 'text/html' });
+const url = URL.createObjectURL(blob);
+window.open(url, '_blank');
+
 </scr` + `ipt>
 
           </body>
