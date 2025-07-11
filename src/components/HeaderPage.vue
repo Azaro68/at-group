@@ -45,9 +45,14 @@ export default {
       }
 
       try {
-  const res = await fetch(import.meta.env.BASE_URL + 'data/details.csv');
-  const buffer = await res.arrayBuffer();
-  const workbook = XLSX.read(buffer, { type: 'array' });
+  const res = await fetch(import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now());
+  const text = await res.text();
+const workbook = XLSX.read(text, {
+  type: 'string',
+  FS: ';',       // указываем разделитель (т.к. у тебя CSV через ;)
+  raw: true      // избегаем автоматического преобразования данных
+});
+
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
