@@ -66,36 +66,38 @@ export default {
   const rowData = jsonData[foundIndex];
 
   const rowHtml = `
-    <html>
-      <head>
-        <title>Найдена деталь</title>
-        <style>
-          table {
-            border-collapse: collapse;
-            width: 80%;
-            margin: 40px auto;
-          }
-          td {
-            border: 1px solid #999;
-            padding: 12px 16px;
-            font-size: 18px;
-            background-color: #ffff99;
-          }
-          h2 {
-            text-align: center;
-            font-family: sans-serif;
-            margin-top: 30px;
-          }
-        </style>
-      </head>
-      <body>
-        <h2>Найдена строка:</h2>
-        <table>
-          <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
-        </table>
-      </body>
-    </html>
-  `;
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Найдена деталь</title>
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 80%;
+          margin: 40px auto;
+        }
+        td {
+          border: 1px solid #999;
+          padding: 12px 16px;
+          font-size: 18px;
+          background-color: #ffff99;
+        }
+        h2 {
+          text-align: center;
+          font-family: sans-serif;
+          margin-top: 30px;
+        }
+      </style>
+    </head>
+    <body>
+      <h2>Найдена строка:</h2>
+      <table>
+        <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
+      </table>
+    </body>
+  </html>
+`;
+
 
   const blob = new Blob([rowHtml], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
