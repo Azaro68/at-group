@@ -5,7 +5,14 @@
         <p class="titleHead">НАДЕЖНОСТЬ КАЧЕСТВО ГАРАНТИИ</p>
     </div>
     <div class="menuHeader">
-        <input placeholder="Поиск " type="text" id="name">
+        <input
+  v-model="searchQuery"
+  @keyup.enter="searchExcel"
+  placeholder="Поиск "
+  type="text"
+  id="name"
+/>
+
         <nav>
             <ul>
                 <li style="margin-left: 20px;"><a href="#aboutСompany">О КОМПАНИИ</a></li>
@@ -22,10 +29,84 @@
 </template>
 
 <script>
+import * as XLSX from 'xlsx';
+
 export default {
-    name: 'HeaderPage',
+  name: 'HeaderPage',
+  data() {
+    return {
+      searchQuery: ''
+    }
+  },
+  methods: {
+    async searchExcel() {
+      if (!this.searchQuery) {
+        alert('Введите название детали');
+        return;
+      }
+
+      try {
+        const res = await fetch('/data/details.xlsx');
+        const arrayBuffer = await res.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
+
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        const searchLower = this.searchQuery.toLowerCase();
+        const foundIndex = jsonData.findIndex((row) => {
+  if (!Array.isArray(row)) return false;
+  return row.some(cell =>
+    String(cell || '').toLowerCase().includes(searchLower)
+  );
+});
+
+
+        if (foundIndex === -1) {
+          alert('Деталь не найдена');
+          return;
+        }
+
+        const sheetHtml = XLSX.utils.sheet_to_html(sheet);
+        const htmlWithScroll = sheetHtml.replace(
+          new RegExp(`<tr.*?>`, 'g'),
+          (match, offset, fullText) => {
+            const rowIndex = fullText.slice(0, offset).split('<tr').length - 1;
+            if (rowIndex === foundIndex) {
+              return match.replace('<tr', `<tr id="scrollHere" style="background-color: #ffff99;"`);
+            }
+            return match;
+          }
+        );
+
+        const finalHtml = `
+          <html>
+          <head><title>Результат</title></head>
+          <body>
+            ${htmlWithScroll}
+            <script>
+  window.onload = () => {
+    const el = document.getElementById('scrollHere');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+</scr` + `ipt>
+
+          </body>
+          </html>
+        `;
+
+        const blob = new Blob([finalHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } catch (error) {
+        console.error('Ошибка поиска:', error);
+        alert('Не удалось обработать Excel-файл');
+      }
+    }
+  }
 }
 </script>
+
 
 <style scoped>
     .container {
