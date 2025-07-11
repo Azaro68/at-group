@@ -47,7 +47,7 @@ export default {
       try {
         const res = await fetch(import.meta.env.BASE_URL + 'data/details.xlsx');
         const arrayBuffer = await res.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const workbook = XLSX.read(arrayBuffer, { type: 'array', codepage: 1251 });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
