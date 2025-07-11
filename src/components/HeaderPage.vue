@@ -56,10 +56,10 @@ export default {
         const searchLower = this.searchQuery.toLowerCase();
         const foundIndex = jsonData.findIndex((row) => {
   if (!Array.isArray(row)) return false;
-  return row.some(cell =>
-    String(cell || '').toLowerCase().includes(searchLower)
-  );
+  const firstCell = row[0];
+  return String(firstCell || '').toLowerCase().includes(searchLower);
 });
+
 
 
         if (foundIndex === -1) {
