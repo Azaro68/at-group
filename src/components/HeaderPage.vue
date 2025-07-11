@@ -45,11 +45,12 @@ export default {
       }
 
       try {
-        const res = await fetch(import.meta.env.BASE_URL + 'data/details.xlsx');
-        const arrayBuffer = await res.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array', codepage: 1251 });
+        const res = await fetch(import.meta.env.BASE_URL + 'data/details.csv');
+        const text = await res.text();
+        const workbook = XLSX.read(text, { type: 'string' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
 
         const searchLower = this.searchQuery.toLowerCase();
         const foundIndex = jsonData.findIndex((row) => {
