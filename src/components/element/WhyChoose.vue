@@ -7,15 +7,15 @@
             <div class="reasons">
                 <div class="card">
                     <img src="../../assets/img/WhyChoose/image 23.png" alt="">
-                    <p>Гарантия качества и оригинальности поставляемой продукции</p>
+                    <p>Специалисты с опытом более 10 лет в области электроники</p>
                 </div>
                 <div class="card">
                     <img src="../../assets/img/WhyChoose/image 24.png" alt="">
-                    <p>Отлаженные логистические цепочки, широкие складские запасы</p>
+                    <p>Гарантия качества всех компонентов</p>
                 </div>
                 <div class="card">
                     <img src="../../assets/img/WhyChoose/image 25.png" alt="">
-                    <p>Ориентированность на долгосрочное партнёрство</p>
+                    <p>Индивидуальный и внимательный подход к каждому клиенту</p>
                 </div>
             </div>
         </div>
@@ -85,12 +85,13 @@
 }
 
 .imgPage {
-    margin-top: 95px;
+    margin-top: 50px;
+    max-width: 525px;
 }
 
 .imgPage img{
     opacity: 0.5;
-    width: 90%;
+    width:100%;
 }
 
 @media (max-width: 1200px) {

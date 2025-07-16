@@ -2,24 +2,24 @@
   <div class="engineering-systems-wrapper">
     <div class="engineeringSystems container">
       <div class="titleMain">
-        <h2>НАДЁЖНЫЙ ПОСТАВЩИК</h2>
-        <h2 style="text-align: right;">ЭЛЕКТРОННЫХ КОМПОНЕНТОВ</h2>
+        <h2>ИНЖЕНЕРНЫЕ СИСТЕМЫ</h2>
+        <h2 style="text-align: right;">ДЛЯ СОВРЕМЕННЫХ ЗДАНИЙ</h2>
       </div>
       <div class="products">
-        <p>Более 10 лет поставляем электронные компоненты, гарантируя качество каждой партии.</p>
+        <p>Проектирование, монтаж и обслуживание BMS, видеонаблюдения, безопасности и других систем под ключ.</p>
         <button>Посмотреть товары</button>
       </div>
     </div>
     
     <div class="image-section">
       <img 
-        src="../../assets/img/materic2.png" 
+        src="../../assets/img/materic3.png" 
         alt="Инженерные системы"
         class="background-image"
       >
       <div class="decoration">
         
-        <!-- <h1 class="center-title">AT-GROUP</h1> -->
+        <h1 class="center-title">AT-GROUP</h1>
         
       </div>
     </div>
@@ -113,7 +113,7 @@ export default {
 
 .decoration {
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
