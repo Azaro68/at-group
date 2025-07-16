@@ -1,11 +1,12 @@
 <template>
     <div class="formCommun">
         <p class="labelForm">Заполните эту форму и мы свяжемся с Вами в ближайшее время для консультации</p>
-        <form @submit.prevent="submitForm">
+        <form action="https://formsubmit.co/mikhailrozhkoval@gmail.com" method="POST">
             <div class="form-group">
                 <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Ваше имя"
                 required
                 />
@@ -15,6 +16,7 @@
                 <input
                 type="tel"
                 id="phone"
+                name="phone"
                 placeholder="Ваш телефон"
                 required
                 />

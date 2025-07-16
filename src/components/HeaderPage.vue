@@ -49,8 +49,8 @@ export default {
   const text = await res.text();
 const workbook = XLSX.read(text, {
   type: 'string',
-  FS: ';',       // указываем разделитель (т.к. у тебя CSV через ;)
-  raw: true      // избегаем автоматического преобразования данных
+  FS: ';',       
+  raw: true   
 });
 
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -118,7 +118,6 @@ const workbook = XLSX.read(text, {
 </script>
 
 <style scoped>
-/* Твои стили остаются без изменений */
 .container {
   width: 90%;
   margin: 0 auto;

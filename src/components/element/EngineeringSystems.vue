@@ -2,11 +2,11 @@
   <div class="engineering-systems-wrapper">
     <div class="engineeringSystems container">
       <div class="titleMain">
-        <h2>ИНЖЕНЕРНЫЕ СИСТЕМЫ</h2>
-        <h2 style="text-align: right;">ДЛЯ СОВРЕМЕННЫХ ЗДАНИЙ</h2>
+        <h2>НАДЁЖНЫЙ ПОСТАВЩИК</h2>
+        <h2 style="text-align: right;">ЭЛЕКТРОННЫХ КОМПОНЕНТОВ</h2>
       </div>
       <div class="products">
-        <p>Проектирование, монтаж и обслуживание BMS, видеонаблюдения, безопасности и других систем под ключ.</p>
+        <p>Более 10 лет поставляем электронные компоненты, гарантируя качество каждой партии.</p>
         <button>Посмотреть товары</button>
       </div>
     </div>
