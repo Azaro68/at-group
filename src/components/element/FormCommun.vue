@@ -1,7 +1,13 @@
 <template>
     <div class="formCommun">
         <p class="labelForm">Заполните эту форму и мы свяжемся с Вами в ближайшее время для консультации</p>
-        <form action="https://formsubmit.co/mikhailrozhkoval@gmail.com" method="POST">
+        <form action="https://formsubmit.co/mikhailrozhkoval@gmail.com" method="POST" target="_blank">
+            <input type="hidden" name="_captcha" value="false" />
+      <input
+        type="hidden"
+        name="_subject"
+        value="Новая заявка с консультацией"
+      />
             <div class="form-group">
                 <input
                 type="text"
