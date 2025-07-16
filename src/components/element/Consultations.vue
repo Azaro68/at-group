@@ -6,7 +6,7 @@
             <div class="contact">
                 <p class="phone">+7 (812) 388-15-88</p>
                 <p class="email">info@at-grupp.ru</p>
-                <p class="schedule">пн. — пт. 9:00-17:00</p>
+                <p class="schedule">пн.—пт. 9:00-17:00</p>
             </div>
             <img src="../../assets/img/group_7.png" alt="Контакты" class="contact-image">
         </div>
