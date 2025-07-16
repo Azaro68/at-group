@@ -1,12 +1,12 @@
 <template>
     <div class="consultations">
         <h3>Получите бесплатную консультацию</h3>
-        <p class="descript">Оставьте заявку — мы свяжемся с вами, подробно проконсультируем по видеонаблюдению, BMS или другим системам, и дадим экспертную оценку вашей задачи.</p>
+        <p class="descript">Для оперативной связи свяжитесь с нами удобным для вас способом и начните сотрудничество уже сегодня.</p>
         <div class="contact-wrapper">
             <div class="contact">
-                <p class="schedule">Мы на связи пн-пт</p>
                 <p class="phone">+7 (812) 388-15-88</p>
                 <p class="email">info@at-grupp.ru</p>
+                <p class="schedule">Режим работы менеджеров пн. — пт. 9:00-17:00</p>
             </div>
             <img src="../../assets/img/group_7.png" alt="Контакты" class="contact-image">
         </div>
