@@ -1,6 +1,6 @@
 <template>
     <div class="formCommun">
-        <p class="labelForm">Заполните эту форму и мы свяжемся с Вами в ближайшее время для консультации</p>
+        <p class="labelForm">Заполните форму обратной связи, и мы свяжемся с Вами в кратчайшие сроки</p>
         <form action="https://formsubmit.co/mikhailrozhkoval@gmail.com" method="POST" target="_blank">
             <input type="hidden" name="_captcha" value="false" />
       <input
