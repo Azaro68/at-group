@@ -15,7 +15,7 @@
       <nav>
         <ul>
           <li style="margin-left: 20px;"><a href="#aboutСompany">О КОМПАНИИ</a></li>
-          <li>КАТАЛОГ</li>
+          <li @click="showCatalogNotice" style="cursor: pointer;">КАТАЛОГ</li>
           <li><a href="#contact">СВЯЗАТЬСЯ С НАМИ</a></li>
         </ul>
       </nav>
@@ -112,7 +112,11 @@ const workbook = XLSX.read(text, {
   alert('Не удалось обработать CSV-файл');
 }
 
-    }
+    },
+
+    showCatalogNotice() {
+    alert('Каталог находится в стадии разработки. Пожалуйста, воспользуйтесь кнопкой "Найти товары"');
+  }
   }
 };
 </script>
