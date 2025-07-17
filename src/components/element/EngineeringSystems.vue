@@ -7,7 +7,14 @@
       </div>
       <div class="products">
         <p>Более 10 лет поставляем электронные компоненты, гарантируя качество каждой партии.</p>
-        <button><a href="https://docs.google.com/spreadsheets/d/144oxj1Slg5jTyeeTlq7FZYRUwbSg2oYhNd1mKy0PSGw/edit?hl=ru&gid=0#gid=0" target="_blank">Посмотреть товары</a></button>
+        <button>
+          <a
+            href="https://docs.google.com/spreadsheets/d/144oxj1Slg5jTyeeTlq7FZYRUwbSg2oYhNd1mKy0PSGw/edit?hl=ru&gid=0"
+            target="_blank" rel="noopener noreferrer"
+          >
+            Посмотреть товары
+          </a>
+        </button>
       </div>
     </div>
     
@@ -18,9 +25,7 @@
         class="background-image"
       >
       <div class="decoration">
-        
         <h1 class="center-title">AT-GROUP</h1>
-        
       </div>
     </div>
   </div>
@@ -29,10 +34,18 @@
 <script>
 export default {
   name: 'EngineeringSystems',
-}
+};
 </script>
 
 <style scoped>
+/* Подключаем шрифт */
+@font-face {
+  font-family: 'Eurostyle Round Extended';
+  src: url('../../assets/fonts/EurostyleRoundExtended-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
 .engineering-systems-wrapper {
   position: relative;
   width: 100%;
@@ -68,13 +81,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items:flex-start;
+  align-items: flex-start;
   padding-right: clamp(10px, 3vw, 50px);
 }
 
 .products p {
   max-width: min(730px, 100%);
-  font-size: clamp(16px, 2.5vw, 24px);    
+  font-size: clamp(16px, 2.5vw, 24px);
   margin: 0;
   flex: 1 1 60%;
 }
@@ -85,13 +98,21 @@ export default {
   background-color: #225A7D;
   border: none;
   border-radius: 50%;
-  font-size: clamp(14px, 1.5vw, 20px);
-  color: #fff;
-  cursor: pointer;
   position: relative;
   z-index: 3;
   flex-shrink: 0;
   transition: transform 0.3s ease;
+}
+
+.products button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: clamp(14px, 1.5vw, 20px);
+  color: #fff;
+  text-decoration: none;
 }
 
 .products button:hover {
@@ -124,7 +145,8 @@ export default {
 }
 
 .center-title {
-  font-size: clamp(40px, 8vw, 80px);
+  font-family: 'Eurostyle Round Extended', sans-serif;
+  font-size: 80px;
   color: #0C3C5A;
   text-shadow: 0 0 10px rgba(0,0,0,0.5);
   margin: clamp(10px, 3vw, 40px) 0;
@@ -136,11 +158,9 @@ export default {
   .products {
     padding-right: clamp(10px, 2vw, 30px);
   }
-  
   .products p {
     flex: 1 1 55%;
   }
-  
   .products button {
     width: clamp(90px, 14vw, 160px);
     height: clamp(90px, 14vw, 160px);
@@ -151,11 +171,9 @@ export default {
   .titleMain h2 {
     font-size: clamp(24px, 4.5vw, 40px);
   }
-  
   .products p {
     font-size: clamp(15px, 2.2vw, 22px);
   }
-  
   .image-section {
     margin-top: -70px;
   }
@@ -167,18 +185,15 @@ export default {
     align-items: flex-start;
     padding-right: 0;
   }
-  
   .products button {
     margin-top: 20px;
     width: clamp(80px, 25vw, 140px);
     height: clamp(80px, 25vw, 140px);
     align-self: center;
   }
-  
   .image-section {
     margin-top: -50px;
   }
-  
   .background-image {
     width: 110%;
   }
@@ -189,18 +204,15 @@ export default {
     font-size: clamp(20px, 6vw, 28px);
     text-align: center !important;
   }
-  
   .products p {
     text-align: center;
     margin-bottom: 15px;
   }
-  
   .products button {
     width: 120px;
     height: 120px;
     font-size: 16px;
   }
-  
   .image-section {
     margin-top: -30px;
   }
@@ -212,7 +224,6 @@ export default {
     height: 100px;
     font-size: 14px;
   }
-  
   .titleMain h2 {
     line-height: 1.1;
   }
