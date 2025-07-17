@@ -1,28 +1,41 @@
 <template>
-  <div class="header container">
-    <div class="companiHeader">
-      <img src="../assets/img/logo_fin.png" alt="logotip">
-      <p class="titleHead">НАДЕЖНОСТЬ КАЧЕСТВО ГАРАНТИИ</p>
+  <div>
+    <div class="header container">
+      <div class="companiHeader">
+        <img src="../assets/img/logo_fin.png" alt="logotip">
+        <p class="titleHead">НАДЕЖНОСТЬ КАЧЕСТВО ГАРАНТИИ</p>
+      </div>
+      <div class="menuHeader">
+        <input
+          v-model="searchQuery"
+          @keyup.enter="searchExcel"
+          placeholder="Поиск"
+          type="text"
+          id="name"
+        />
+        <nav>
+          <ul>
+            <li style="margin-left: 20px;"><a href="#aboutСompany">О КОМПАНИИ</a></li>
+            <li @click="showCatalogNotice">КАТАЛОГ</li>
+            <li><a href="#contact">СВЯЗАТЬСЯ С НАМИ</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="infoHeader">
+        <p>+7 (812) 388-15-88</p>
+        <p>info@at-grupp.ru</p>
+      </div>
     </div>
-    <div class="menuHeader">
-      <input
-        v-model="searchQuery"
-        @keyup.enter="searchExcel"
-        placeholder="Поиск"
-        type="text"
-        id="name"
-      />
-      <nav>
-        <ul>
-          <li style="margin-left: 20px;"><a href="#aboutСompany">О КОМПАНИИ</a></li>
-          <li @click="showCatalogNotice" style="cursor: pointer;">КАТАЛОГ</li>
-          <li><a href="#contact">СВЯЗАТЬСЯ С НАМИ</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="infoHeader">
-      <p>+7 (812) 388-15-88</p>
-      <p>info@at-grupp.ru</p>
+
+    <!-- Modal Overlay -->
+    <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+      <div class="modal-content">
+        <p>
+          Каталог находится в стадии разработки,<br>
+          пожалуйста, воспользуйтесь кнопкой <b>«Найти товары»</b>
+        </p>
+        <button class="close-btn" @click="closeModal">Закрыть</button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,7 +47,8 @@ export default {
   name: 'HeaderPage',
   data() {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      showModal: false
     };
   },
   methods: {
@@ -45,78 +59,79 @@ export default {
       }
 
       try {
-  const res = await fetch(import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now());
-  const text = await res.text();
-const workbook = XLSX.read(text, {
-  type: 'string',
-  FS: ';',       
-  raw: true   
-});
+        const res = await fetch(
+          import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
+        );
+        const text = await res.text();
+        const workbook = XLSX.read(text, {
+          type: 'string',
+          FS: ';',
+          raw: true
+        });
 
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-  const searchLower = this.searchQuery.toLowerCase();
-  const foundIndex = jsonData.findIndex((row) => {
-    if (!Array.isArray(row)) return false;
-    const firstCell = row[0];
-    return String(firstCell || '').toLowerCase().includes(searchLower);
-  });
+        const searchLower = this.searchQuery.toLowerCase();
+        const foundIndex = jsonData.findIndex((row) => {
+          if (!Array.isArray(row)) return false;
+          const firstCell = row[0];
+          return String(firstCell || '').toLowerCase().includes(searchLower);
+        });
 
-  if (foundIndex === -1) {
-    alert('Деталь не найдена');
-    return;
-  }
-
-  const rowData = jsonData[foundIndex];
-
-  const rowHtml = `
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Найдена деталь</title>
-      <style>
-        table {
-          border-collapse: collapse;
-          width: 80%;
-          margin: 40px auto;
+        if (foundIndex === -1) {
+          alert('Деталь не найдена');
+          return;
         }
-        td {
-          border: 1px solid #999;
-          padding: 12px 16px;
-          font-size: 18px;
-          background-color: #ffff99;
-        }
-        h2 {
-          text-align: center;
-          font-family: sans-serif;
-          margin-top: 30px;
-        }
-      </style>
-    </head>
-    <body>
-      <h2>Найдена строка:</h2>
-      <table>
-        <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
-      </table>
-    </body>
-  </html>
+
+        const rowData = jsonData[foundIndex];
+        const rowHtml = `
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Найдена деталь</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 40px auto;
+      }
+      td {
+        border: 1px solid #999;
+        padding: 12px 16px;
+        font-size: 18px;
+        background-color: #ffff99;
+      }
+      h2 {
+        text-align: center;
+        font-family: sans-serif;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Найдена строка:</h2>
+    <table>
+      <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
+    </table>
+  </body>
+</html>
 `;
 
-
-  const blob = new Blob([rowHtml], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-} catch (error) {
-  console.error('Ошибка поиска:', error);
-  alert('Не удалось обработать CSV-файл');
-}
-
+        const blob = new Blob([rowHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } catch (error) {
+        console.error('Ошибка поиска:', error);
+        alert('Не удалось обработать CSV-файл');
+      }
     },
-
     showCatalogNotice() {
-    alert('Каталог находится в стадии разработки. Пожалуйста, воспользуйтесь кнопкой "Найти товары"');
-  }
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    }
   }
 };
 </script>
@@ -315,5 +330,47 @@ input::placeholder {
   .titleHead::after {
     width: 150px;
   }
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  font-size: 18px;
+  color: #333;
+  font-family: sans-serif;
+}
+
+.close-btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  font-size: 16px;
+  background-color: #225A7D;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background-color: #1a4561;
 }
 </style>
