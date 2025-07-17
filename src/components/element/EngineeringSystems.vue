@@ -148,7 +148,6 @@ export default {
   font-family: 'Eurostyle Round Extended', sans-serif;
   font-size: 80px;
   color: #0C3C5A;
-  text-shadow: 0 0 10px rgba(0,0,0,0.5);
   margin: clamp(10px, 3vw, 40px) 0;
   z-index: 2;
   text-align: center;
