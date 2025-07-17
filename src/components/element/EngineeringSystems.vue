@@ -7,7 +7,7 @@
       </div>
       <div class="products">
         <p>Более 10 лет поставляем электронные компоненты, гарантируя качество каждой партии.</p>
-        <button>Посмотреть товары</button>
+        <button><a href="https://docs.google.com/spreadsheets/d/144oxj1Slg5jTyeeTlq7FZYRUwbSg2oYhNd1mKy0PSGw/edit?hl=ru&gid=0#gid=0" target="_blank">Посмотреть товары</a></button>
       </div>
     </div>
     
