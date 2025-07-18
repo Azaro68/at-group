@@ -53,78 +53,73 @@ export default {
   },
   methods: {
     async searchExcel() {
-      if (!this.searchQuery) {
-        alert('Введите название детали');
+    if (!this.searchQuery) {
+      alert('Введите название детали');
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
+      );
+      const text = await res.text();
+      const workbook = XLSX.read(text, {
+        type: 'string',
+        FS: ';',
+        raw: true
+      });
+
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+      const searchLower = this.searchQuery.toLowerCase();
+      // Собираем все подходящие строки
+      const matchedRows = jsonData.filter(row => {
+        if (!Array.isArray(row)) return false;
+        return String(row[0] || '').toLowerCase().includes(searchLower);
+      });
+
+      if (matchedRows.length === 0) {
+        alert('Деталь не найдена');
         return;
       }
 
-      try {
-        const res = await fetch(
-          import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
-        );
-        const text = await res.text();
-        const workbook = XLSX.read(text, {
-          type: 'string',
-          FS: ';',
-          raw: true
-        });
+      // Строим HTML-таблицу из всех найденных строк
+      const rowsHtml = matchedRows
+        .map(row =>
+          `<tr>${row.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>`
+        )
+        .join('\n');
 
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-        const searchLower = this.searchQuery.toLowerCase();
-        const foundIndex = jsonData.findIndex((row) => {
-          if (!Array.isArray(row)) return false;
-          const firstCell = row[0];
-          return String(firstCell || '').toLowerCase().includes(searchLower);
-        });
-
-        if (foundIndex === -1) {
-          alert('Деталь не найдена');
-          return;
-        }
-
-        const rowData = jsonData[foundIndex];
-        const rowHtml = `
+      const rowHtml = `
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Найдена деталь</title>
+    <title>Найдены детали</title>
     <style>
-      table {
-        border-collapse: collapse;
-        width: 80%;
-        margin: 40px auto;
-      }
-      td {
-        border: 1px solid #999;
-        padding: 12px 16px;
-        font-size: 18px;
-        background-color: #ffff99;
-      }
-      h2 {
-        text-align: center;
-        font-family: sans-serif;
-        margin-top: 30px;
-      }
+      table { border-collapse: collapse; width: 80%; margin: 40px auto; }
+      td, th { border: 1px solid #999; padding: 12px 16px; font-size: 18px; }
+      th { background-color: #eee; }
+      td { background-color: #ffff99; }
+      h2 { text-align: center; font-family: sans-serif; margin-top: 30px; }
     </style>
   </head>
   <body>
-    <h2>Найдена строка:</h2>
+    <h2>В наличии на складе (найдено ${matchedRows.length}):</h2>
     <table>
-      <tr>${rowData.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>
+      ${rowsHtml}
     </table>
   </body>
 </html>
 `;
 
-        const blob = new Blob([rowHtml], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-      } catch (error) {
-        console.error('Ошибка поиска:', error);
-        alert('Не удалось обработать CSV-файл');
-      }
+      const blob = new Blob([rowHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error('Ошибка поиска:', error);
+      alert('Не удалось обработать CSV-файл');
+    }
     },
     showCatalogNotice() {
       this.showModal = true;

@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style scoped>
-/* Подключаем шрифт */
 @font-face {
   font-family: 'Eurostyle Round Extended';
   src: url('../../assets/fonts/EurostyleRoundExtended-Medium.otf') format('opentype');
