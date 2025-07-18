@@ -5,9 +5,8 @@
                 <h2>О Компании</h2>
                 <div class="aboutText">
                     <div class="textLeft">
-                        <p class="mainDescript"><span class="name">AT-GROUP</span>— это команда высококвалифицированных <span class="specialist">ИНЖЕНЕРОВ</span> и <span class="specialist">СПЕЦИАЛИСТОВ</span>,
-                            глубоко разбирающихся в специфике электронных компонентов.</p>
-                        <p class="descript">Мы гордимся нашей репутацией ответственного и надежного партнера, построенной на принципах <span class="specialist">ПРОЗРАЧНОСТИ</span>, безусловного <span class="specialist">КАЧЕСТВА</span> и глубокого <span class="specialist">ПОНИМАНИЯ</span> отраслевых стандартов.</p>
+                        <p class="mainDescript"><span class="name">АТ-ГРУПП</span>— это эксперты, знающие электронные компоненты от и до. Предлагаем широкий ассортимент: от стандартных до редких и снятых с производства позиций. Учитываем <span class="specialist">уникальные потребности</span>, разрабатываем <span class="specialist">индивидуальные условия</span> и <span class="specialist">гибкие графики</span> поставок для долгосрочного партнерства.</p>
+                        <p class="descript">Наша репутация надежного партнера основана на <span class="specialist">ПРОЗРАЧНОСТИ</span>, безупречном <span class="specialist">КАЧЕСТВЕ</span> и глубоком <span class="specialist">ЗНАНИИ</span> отраслевых стандартов.</p>
                     </div>
                     <div class="textRight">
                         <p class="mainDescript">Наша цель — обеспечить доступ к широчайшему ассортименту продукции: от стандартных решений до специализированных и снятых с производства позиций.</p>

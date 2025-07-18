@@ -2,11 +2,11 @@
   <div class="engineering-systems-wrapper">
     <div class="engineeringSystems container">
       <div class="titleMain">
-        <h2>НАДЁЖНЫЙ ПОСТАВЩИК</h2>
-        <h2 style="text-align: right;">ЭЛЕКТРОННЫХ КОМПОНЕНТОВ</h2>
+        <h2>НАДЕЖНЫЙ ПАРТНЕР</h2>
+        <h2 style="text-align: right;">В МИРЕ ЭЛЕКТРОНИКИ</h2>
       </div>
       <div class="products">
-        <p>Более 10 лет поставляем электронные компоненты, гарантируя качество каждой партии.</p>
+        <p>Экспертиза и надежность в каждой поставке. Более 10 лет в отрасли.</p>
         <button>
           <a
             href="https://docs.google.com/spreadsheets/d/144oxj1Slg5jTyeeTlq7FZYRUwbSg2oYhNd1mKy0PSGw/edit?hl=ru&gid=0"

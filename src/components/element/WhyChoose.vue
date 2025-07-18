@@ -3,7 +3,7 @@
         <div class="container whyChoose">
             <div class="content">
             <h2>Почему выбирают AT-GROUP</h2>
-            <p class="descript">Мы знаем: надёжные компоненты - ключ к бесперебойной работе и стабильному росту.</p>
+            <p class="descript">Бесперебойность и рост вашего производства начинаются с надежных компонентов.</p>
             <div class="reasons">
                 <div class="card">
                     <img src="../../assets/img/WhyChoose/image 23.png" alt="">
