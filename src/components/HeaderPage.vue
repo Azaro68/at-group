@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div>
     <div class="header container">
       <div class="companiHeader">
@@ -27,12 +27,11 @@
       </div>
     </div>
 
-    <!-- Modal Overlay -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
         <p>
           Каталог находится в стадии разработки,<br>
-          пожалуйста, воспользуйтесь кнопкой <b>Посмотреть товары»</b>
+          пожалуйста, воспользуйтесь кнопкой <b>«Посмотреть товары»</b>
         </p>
         <button class="close-btn" @click="closeModal">Закрыть</button>
       </div>
@@ -53,52 +52,58 @@ export default {
   },
   methods: {
     async searchExcel() {
-  if (!this.searchQuery) {
-    alert('Введите название детали');
-    return;
-  }
+      if (!this.searchQuery) {
+        alert('Введите название детали');
+        return;
+      }
 
-  try {
-    const res = await fetch(
-      import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
-    );
-    const text = await res.text();
-    const workbook = XLSX.read(text, {
-      type: 'string',
-      FS: ';',
-      raw: true
-    });
+      try {
+        const res = await fetch(
+          import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
+        );
+        const text = await res.text();
+        const workbook = XLSX.read(text, {
+          type: 'string',
+          FS: ';',
+          raw: true
+        });
 
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-    const searchLower = this.searchQuery.toLowerCase();
-    const matchedRows = jsonData.filter(row => {
-      if (!Array.isArray(row)) return false;
-      return String(row[0] || '').toLowerCase().includes(searchLower);
-    });
+        const searchLower = this.searchQuery.toLowerCase();
+        const matchedRows = jsonData.filter(row => {
+          if (!Array.isArray(row)) return false;
+          return String(row[0] || '').toLowerCase().includes(searchLower);
+        });
 
-    if (matchedRows.length === 0) {
-      alert('Деталь не найдена');
-      return;
-    }
+        if (matchedRows.length === 0) {
+          alert('Деталь не найдена');
+          return;
+        }
 
+        const columnsCount = 5;
+        const headerCells = [
+          'Наименование',
+          'Количество на складе',
+          'Дата производства',
+          'Производитель',
+          'Описание'
+        ];
+        const headerHtml = `
+          <tr>
+            ${headerCells.map(h => `<th>${h}</th>`).join('')}
+          </tr>
+        `;
 
-    const columnsCount = 5;
+        const rowsHtml = matchedRows
+          .map(row => {
+            const cells = Array.from({ length: columnsCount }, (_, i) => row[i] ?? '');
+            return `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+          })
+          .join('\n');
 
-    const headerCells = (jsonData[0] || []).slice(0, columnsCount);
-    const headerHtml = headerCells.length
-      ? `<tr>${headerCells.map(h => `<th>${h}</th>`).join('')}</tr>`
-      : '';
-
-    const rowsHtml = matchedRows
-      .map(row => {
-        const cells = Array.from({ length: columnsCount }, (_, i) => row[i] ?? '');
-        return `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
-      })
-      .join('\n');
-
-    const fullHtml = `
+        const fullHtml = `
 <html>
   <head>
     <meta charset="UTF-8">
@@ -106,8 +111,8 @@ export default {
     <style>
       table { border-collapse: collapse; width: 80%; margin: 40px auto; }
       th, td { border: 1px solid #999; padding: 12px 16px; font-size: 18px; }
-      th { background-color: #eee; }
-      td { background-color: #ffff99; }
+      /* Одинаковый фон у заголовков и ячеек */
+      th, td { background-color: #ffff99; }
       h2 { text-align: center; font-family: sans-serif; margin-top: 30px; }
     </style>
   </head>
@@ -121,13 +126,13 @@ export default {
 </html>
 `;
 
-    const blob = new Blob([fullHtml], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-  } catch (error) {
-    console.error('Ошибка поиска:', error);
-    alert('Не удалось обработать CSV-файл');
-  }
+        const blob = new Blob([fullHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } catch (error) {
+        console.error('Ошибка поиска:', error);
+        alert('Не удалось обработать CSV-файл');
+      }
     },
     showCatalogNotice() {
       this.showModal = true;
