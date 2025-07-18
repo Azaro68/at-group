@@ -53,52 +53,59 @@ export default {
   },
   methods: {
     async searchExcel() {
-    if (!this.searchQuery) {
-      alert('Введите название детали');
+  if (!this.searchQuery) {
+    alert('Введите название детали');
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
+    );
+    const text = await res.text();
+    const workbook = XLSX.read(text, {
+      type: 'string',
+      FS: ';',
+      raw: true
+    });
+
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+    const searchLower = this.searchQuery.toLowerCase();
+    const matchedRows = jsonData.filter(row => {
+      if (!Array.isArray(row)) return false;
+      return String(row[0] || '').toLowerCase().includes(searchLower);
+    });
+
+    if (matchedRows.length === 0) {
+      alert('Деталь не найдена');
       return;
     }
 
-    try {
-      const res = await fetch(
-        import.meta.env.BASE_URL + 'data/details.csv?v=' + Date.now()
-      );
-      const text = await res.text();
-      const workbook = XLSX.read(text, {
-        type: 'string',
-        FS: ';',
-        raw: true
-      });
 
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    const columnsCount = 5;
 
-      const searchLower = this.searchQuery.toLowerCase();
-      // Собираем все подходящие строки
-      const matchedRows = jsonData.filter(row => {
-        if (!Array.isArray(row)) return false;
-        return String(row[0] || '').toLowerCase().includes(searchLower);
-      });
+    const headerCells = (jsonData[0] || []).slice(0, columnsCount);
+    const headerHtml = headerCells.length
+      ? `<tr>${headerCells.map(h => `<th>${h}</th>`).join('')}</tr>`
+      : '';
 
-      if (matchedRows.length === 0) {
-        alert('Деталь не найдена');
-        return;
-      }
+    const rowsHtml = matchedRows
+      .map(row => {
+        const cells = Array.from({ length: columnsCount }, (_, i) => row[i] ?? '');
+        return `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+      })
+      .join('\n');
 
-      // Строим HTML-таблицу из всех найденных строк
-      const rowsHtml = matchedRows
-        .map(row =>
-          `<tr>${row.map(cell => `<td>${cell || ''}</td>`).join('')}</tr>`
-        )
-        .join('\n');
-
-      const rowHtml = `
+    const fullHtml = `
 <html>
   <head>
     <meta charset="UTF-8">
     <title>Найдены детали</title>
     <style>
       table { border-collapse: collapse; width: 80%; margin: 40px auto; }
-      td, th { border: 1px solid #999; padding: 12px 16px; font-size: 18px; }
+      th, td { border: 1px solid #999; padding: 12px 16px; font-size: 18px; }
       th { background-color: #eee; }
       td { background-color: #ffff99; }
       h2 { text-align: center; font-family: sans-serif; margin-top: 30px; }
@@ -107,19 +114,20 @@ export default {
   <body>
     <h2>В наличии на складе (найдено ${matchedRows.length}):</h2>
     <table>
-      ${rowsHtml}
+      <thead>${headerHtml}</thead>
+      <tbody>${rowsHtml}</tbody>
     </table>
   </body>
 </html>
 `;
 
-      const blob = new Blob([rowHtml], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    } catch (error) {
-      console.error('Ошибка поиска:', error);
-      alert('Не удалось обработать CSV-файл');
-    }
+    const blob = new Blob([fullHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  } catch (error) {
+    console.error('Ошибка поиска:', error);
+    alert('Не удалось обработать CSV-файл');
+  }
     },
     showCatalogNotice() {
       this.showModal = true;
